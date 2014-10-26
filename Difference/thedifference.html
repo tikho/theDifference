@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-16">
+<style>
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+
+.leftSide {
+  float:left;
+  width:44%;
+  padding: 3%;
+}
+
+.rightSide {
+  float:right;
+  width:44%;
+  padding: 3%;
+}
+
+</style>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body>
+
+  <div class="leftSide" id="leftSide">
+    <input type="text" size="15" id="leftInput"><br>
+  </div>
+
+  <div class="rightSide" id="rightSide">
+    <input type="text" size="15" id="rightInput"><br>
+  </div>
+
+<!-- <p id="pLeft"></p>
+<p id="pRight"></p> -->
+
+
+</body>
+
+<script>
+
+var radius = 16;
+
+
+// var leftSideDiv = document.getElementById("leftSide");
+// var rigthSideDiv = document.getElementById("rightSide");
+
+// // var maxHeight = 1000;
+
+// var widthLeft = leftSideDiv.offsetWidth,
+//     widthRight = rigthSideDiv.offsetWidth,
+//     heightLeft = 900,
+//     heightRight = 900;
+
+
+var widthLeft = 500,
+    widthRight = 500,
+    heightLeft = 100,
+    heightRight = 100;
+
+var step = 20;
+
+      var svg = d3.select(".leftSide")
+              .append("svg")
+              .attr("width", widthLeft)
+              .attr("height", heightLeft);
+
+      d3.select("#leftInput").on("change", function() {
+        updateLeft(this.value);
+      });
+
+      function updateLeft(x) {
+        var data = [];
+
+        for (var i = 0; i < x; i++){
+            data.push(radius);
+        }
+
+        var svg = d3.select(".leftSide")
+              .selectAll("svg")
+              .attr("width", widthLeft)
+              .attr("height", heightLeft);
+
+      var circles = svg.selectAll("circle")
+          .data(data);
+
+      var rowX = 30; //rowX
+      circles.enter().append("circle")
+          .attr("cy", function(d, i) { 
+
+              if ((i > 0) & (i % step == 0)){
+                rowX +=radius + radius / 2;
+              }
+
+              return rowX;
+
+          })
+          .attr("cx", function(d, i) { 
+            return (i % step) * radius + radius / 2;
+             })
+          .attr("r", function(d) { return Math.sqrt(d); });
+
+      heightLeft = rowX + 30;
+      svg.attr("height", heightLeft);
+
+      circles.exit().remove();
+
+      }
+
+
+    var svg = d3.select(".rightSide")
+              .append("svg")
+              .attr("width", widthRight)
+              .attr("height", heightRight);
+
+    d3.select("#rightInput").on("change", function() {
+
+      updateRight(this.value);
+    });
+
+    function updateRight(x) {
+      
+      var data = [];
+      for (var i = 0; i < x; i++) {
+          data.push(x);
+      };
+
+      var svg = d3.select(".rightSide")
+              .selectAll("svg")
+              .attr("width", widthRight)
+              .attr("height", heightRight);
+
+
+
+      var circles = svg.selectAll("circle")
+          .data(data);
+
+      var rowX = 30;
+      circles.enter().append("circle")
+          .attr("cy", function(d, i) { 
+              if ((i > 0) & (i % step == 0)){
+                rowX +=radius + radius / 2;
+              }
+              return rowX;
+
+          })
+          .attr("cx", function(d, i) { 
+            return (i % step) * radius + radius / 2;
+             })
+          .attr("r", function(d) { return Math.sqrt(radius); });
+
+      heightRight = rowX + 30;
+      svg.attr("height", heightRight);
+
+      circles.exit().remove();
+    }
+
+ 
+
+
+</script>
+
+</html>

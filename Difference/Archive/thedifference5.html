@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<meta charset="utf-16">
+<style>
+
+.chart rect {
+  fill: steelblue;
+}
+
+.chart text {
+  fill: white;
+  font: 10px sans-serif;
+  text-anchor: end;
+}
+
+
+.leftSide {
+  float:left;
+  width:44%;
+  padding: 3%;
+}
+
+.rightSide {
+  float:right;
+  width:44%;
+  padding: 3%;
+}
+
+</style>
+<head>
+<script src="http://code.jquery.com/jquery-latest.min.js"
+        type="text/javascript"></script>
+<script src="http://d3js.org/d3.v3.min.js"></script>
+
+</head>
+<body>
+
+  <div class="leftSide">
+    <input type="text" size="15" id="leftInput"><br>
+  </div>
+
+  <div class="rightSide">
+    <input type="text" size="15" id="rightInput"><br>
+  </div>
+
+</body>
+
+<script>
+
+// var holderLeft = d3.select(".leftSide")
+//       .append("svg")
+//       .attr("width", 100)    
+//       .attr("height", 100);
+
+
+
+var step = 50;
+
+var lastLeftCount = 0;
+
+var lastRightCount = 0;
+
+(function(){
+
+var holderLeft = d3.select(".leftSide")
+      .append("svg")
+      .attr("width", 300)    
+      .attr("height", 300);
+
+$("#leftInput")
+  .keyup(function() {
+    var value = $( this ).val();
+    $( "#pLeft" ).text( value );
+
+      d3.select("#leftInput").on("change", function() {
+        updateLeft(this.value);
+      });
+
+      // updateLeft(0);
+
+      var startLeftX = 0;
+      var startLeftY = 30;
+
+      // holderLeft.append("rect")
+      //   .attr("x", startLeftX)
+      //   .attr("y", startLeftY)
+      //   .attr("width", "3")
+      //   .attr("height", "3")
+      //   .attr("fill", "green")
+
+      function updateLeft(x) {
+        var data = [];
+
+        for (var i = 0; i < x; i++){
+            data.push(1);
+        }
+
+        // var j = 0;
+        // var k = 0;
+        // for (var i = 0; i < x; i++) {
+        //   if (i % step == 0 & i > 0){
+        //     j++;
+        //     k = 0;
+        //   }
+          var rectangles = holderLeft.selectAll("rect")
+                                        .data(data)
+                                        .enter()
+                                        .append("rect");
+
+          var rectangleAttributes = rectangles                              
+            .attr("x", startLeftX + k * 5)
+            .attr("y", startLeftY + j * 5)
+            .attr("width", "3")
+            .attr("height", "3")
+            .attr("fill", "green")
+          // k++;
+        // }
+      }
+
+
+
+
+  }).keyup();
+
+})();
+
+(function(){
+
+var holderRight = d3.select(".rightSide")
+      .append("svg")
+      .attr("width", 300)    
+      .attr("height", 300);
+
+$("#rightInput")
+  .keyup(function() {
+    var value = $( this ).val();
+    $( "#pRight" ).text( value );
+
+
+    d3.select("#rightInput").on("change", function() {
+      updateRight(this.value);
+    });
+
+    updateRight(0);
+
+    var startRightX = 0;
+    var startRightY = 30;
+
+    // holderRight.append("rect")
+    //   .attr("x", startRightX)
+    //   .attr("y", startRightY)
+    //   .attr("width", "3")
+    //   .attr("height", "3")
+    //   .attr("fill", "red")
+
+
+    function updateRight(x) {
+      var j = 0;
+      var k = 0;
+      for (var i = 0; i < x; i++) {
+        if (i % step == 0 & i > 0){
+          j++;
+          k = 0;
+        }
+        holderRight.append("rect")
+          .attr("x", startRightX + k * 5)
+          .attr("y", startRightY + j * 5)
+          .attr("width", "3")
+          .attr("height", "3")
+          .attr("fill", "red")
+
+        k++;
+      }
+    }
+
+  }).keyup();
+ 
+ })();
+// var holder = d3.select("body")
+//       .append("svg")
+//       .attr("width", "100%")    
+//       .attr("height", "100%"); 
+
+// d3.select("#leftInput").on("change", function() {
+//   update(this.value);
+// });
+
+// update(0);
+
+// var startLeftX = 30;
+// var startLeftY = 30;
+
+// holder.append("rect")
+//   .attr("x", startLeftX)
+//   .attr("y", startLeftY)
+//   .attr("width", "3")
+//   .attr("height", "3")
+
+// function update(x) {
+//   var j = 0;
+//   var k = 0;
+//   for (var i = 0; i < x; i++) {
+//     if (i % 50 == 0 & i > 0){
+//       j++;
+//       k = 0;
+//     }
+//     holder.append("rect")
+//       .attr("x", startLeftX + k * 5)
+//       .attr("y", startLeftY + j * 5)
+//       .attr("width", "3")
+//       .attr("height", "3")
+//     k++;
+//   }
+// }
+
+
+
+// d3.select("#rightInput").on("change", function() {
+//   update(this.value);
+// });
+
+// update(0);
+
+// var startRightX = 500;
+// var startRightY = 30;
+
+// holder.append("rect")
+//   .attr("x", startRightX)
+//   .attr("y", startRightY)
+//   .attr("width", "3")
+//   .attr("height", "3")
+
+// function update(x) {
+//   var j = 0;
+//   var k = 0;
+//   for (var i = 0; i < x; i++) {
+//     if (i % 50 == 0 & i > 0){
+//       j++;
+//       k = 0;
+//     }
+//     holder.append("rect")
+//       .attr("x", startRightX + k * 5)
+//       .attr("y", startRightY + j * 5)
+//       .attr("width", "3")
+//       .attr("height", "3")
+//     k++;
+//   }
+// }
+
+</script>
+
+</html>
